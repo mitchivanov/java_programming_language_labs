@@ -1,11 +1,9 @@
-import java.util.*;
-
 class Node {
     private int parent;
     private int left;
     private int right;
-    private int probability;
-    private char symbol;
+    private final int probability;
+    private final char symbol;
     private String code;
     private boolean merged;
 
@@ -73,6 +71,6 @@ class Node {
 
     // Проверяет, объединен ли узел
     public boolean isMerged() {
-        return this.merged;
+        return !this.merged;
     }
 }

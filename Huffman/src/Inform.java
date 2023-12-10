@@ -18,8 +18,7 @@ public class Inform {
         int count = 0;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            int currentChar;
-            while ((currentChar = reader.read()) != -1) {
+            while (reader.read() != -1) {
                 count++;
             }
         } catch (IOException e) {
@@ -56,12 +55,11 @@ public class Inform {
             int infoVolumeDecoded = infoVolumePerSymbol * symbolAmountDecoded;
 
             int symbolAmountEncoded = countSymbols(encodedFilePath);
-            int infoVolumeEncoded = symbolAmountEncoded;
 
-            double compressionDegree = (double) infoVolumeDecoded / infoVolumeEncoded;
+            double compressionDegree = (double) infoVolumeDecoded / symbolAmountEncoded;
 
             System.out.println("Размер декодированного файла: " + infoVolumeDecoded + " бит");
-            System.out.println("Размер закодированного файла: " + infoVolumeEncoded + " бит");
+            System.out.println("Размер закодированного файла: " + symbolAmountEncoded + " бит");
             System.out.println("Степень сжатия: " + compressionDegree + "\n");
 
             // Вывод дерева кодирования

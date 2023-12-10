@@ -7,30 +7,24 @@ public class Main {
         boolean shouldRun = true;
 
         while (shouldRun) {
-            System.out.println("Please, enter the program's operating mode:\n" +
-                    "1. Encoding\n" +
-                    "2. Decoding\n" +
-                    "3. Informing\n" +
-                    "4. Exit");
+            System.out.println("""
+                    Пожалуйста, введите режим работы программы:
+                    1. Кодирование
+                    2. Декодирование
+                    3. Информация
+                    4. Выход""");
 
             String operatingMode = scanner.nextLine().toLowerCase(); // Приведем введенный режим к нижнему регистру
 
             switch (operatingMode) {
-                case "encoding":
-                    Encode.encode();
-                    break;
-                case "decoding":
-                    Decode.decode();
-                    break;
-                case "informing":
-                    Inform.inform();
-                    break;
-                case "exit":
+                case "кодирование", "1" -> Encode.encode();
+                case "декодирование", "2" -> Decode.decode();
+                case "информация", "3" -> Inform.inform();
+                case "выход", "4" -> {
                     shouldRun = false;
-                    System.out.println("Goodbye!");
-                    break;
-                default:
-                    System.out.println("Unknown mode. Please, enter a valid option.");
+                    System.out.println("До свидания!");
+                }
+                default -> System.out.println("Неизвестный режим. Пожалуйста, введите действительный вариант.");
             }
         }
 

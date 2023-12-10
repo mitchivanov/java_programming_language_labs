@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Encode {
 
+    // Метод для чтения содержимого файла и создания строки ввода
     public static String createInputString(String filePath) {
         StringBuilder inputString = new StringBuilder();
         try {
@@ -17,11 +18,12 @@ public class Encode {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
         return inputString.toString();
     }
 
+    // Метод для записи символов и их частот в словарь
     public static Map<Character, Integer> writeSymbols(String str) {
         Map<Character, Integer> dictionary = new HashMap<>();
         for (char sym : str.toCharArray()) {
@@ -30,6 +32,7 @@ public class Encode {
         return dictionary;
     }
 
+    // Метод для создания списка узлов на основе словаря символов и их частот
     public static List<Node> createNodes(Map<Character, Integer> dictionary) {
         List<Node> nodeList = new ArrayList<>();
         for (Map.Entry<Character, Integer> entry : dictionary.entrySet()) {
@@ -38,6 +41,7 @@ public class Encode {
         return nodeList;
     }
 
+    // Метод для построения кода Хаффмана и создания таблицы кодов
     public static Map<Character, String> huffmanTree(List<Node> nodeList) {
         int notSeen = nodeList.size();
         while (notSeen != 1) {
@@ -49,19 +53,14 @@ public class Encode {
             }
             int min1 = max;
             int min2 = max;
-            if (nodeList.get(min2).getProbability() < nodeList.get(min1).getProbability()
-                    && !nodeList.get(min2).isMerged()) {
-                int tmp = min1;
-                min1 = min2;
-                min2 = tmp;
-            }
+
             for (int i = 0; i < nodeList.size(); i++) {
                 if (nodeList.get(i).getProbability() <= nodeList.get(min1).getProbability()
-                        && !nodeList.get(i).isMerged()) {
+                        && nodeList.get(i).isMerged()) {
                     min2 = min1;
                     min1 = i;
                 } else if (nodeList.get(i).getProbability() <= nodeList.get(min2).getProbability()
-                        && !nodeList.get(i).isMerged()) {
+                        && nodeList.get(i).isMerged()) {
                     min2 = i;
                 }
             }
@@ -89,15 +88,17 @@ public class Encode {
         return codeTable;
     }
 
+    // Метод для записи закодированной строки в файл
     public static void writeInFile(String encodedString, String filePath) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
             bufferedWriter.write(encodedString);
-            System.out.println("Encoded string has been written to the file: " + filePath);
+            System.out.println("Закодированная строка записана в файл: " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+            System.err.println("Ошибка при записи в файл: " + e.getMessage());
         }
     }
 
+    // Метод для записи таблицы кодов в файл
     public static void writeCodeTableInFile(Map<Character, String> codeTable, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Map.Entry<Character, String> entry : codeTable.entrySet()) {
@@ -105,12 +106,13 @@ public class Encode {
                 writer.write(line);
                 writer.newLine();
             }
-            System.out.println("Code table has been written to the file: " + filePath);
+            System.out.println("Таблица кодов записана в файл: " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing code table to file: " + e.getMessage());
+            System.err.println("Ошибка при записи таблицы кодов в файл: " + e.getMessage());
         }
     }
 
+    // Метод для обработки кодирования и записи результатов в файлы
     public static String encode_process(String initial, Map<Character, String> codeTable, String encodedFilePath, String codeTableFilePath) {
         StringBuilder readyFor = new StringBuilder();
         for (char letter : initial.toCharArray()) {
@@ -121,14 +123,15 @@ public class Encode {
         return readyFor.toString();
     }
 
+    // Метод для начала процесса кодирования
     public static void encode() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please, enter the path of file you want to encode: ");
+        System.out.println("Пожалуйста, введите путь к файлу для кодирования: ");
         String filePath = scanner.nextLine();
 
         File file = new File(filePath);
         if (!file.exists() || !file.isFile()) {
-            System.err.println("Invalid file path. Please enter a valid file path.");
+            System.err.println("Неверный путь к файлу. Пожалуйста, введите действительный путь к файлу.");
             return;
         }
 
@@ -136,10 +139,10 @@ public class Encode {
         Map<Character, Integer> symbolDictionary = writeSymbols(inputString);
         List<Node> nodeList = createNodes(symbolDictionary);
 
-        System.out.println("Please enter the path for the encoded file: ");
+        System.out.println("Пожалуйста, введите путь для закодированного файла: ");
         String encodedFilePath = scanner.nextLine();
 
-        System.out.println("Please enter the path for the code table file: ");
+        System.out.println("Пожалуйста, введите путь для файла с таблицей кодов: ");
         String codeTableFilePath = scanner.nextLine();
 
         Map<Character, String> codeTable = huffmanTree(nodeList);

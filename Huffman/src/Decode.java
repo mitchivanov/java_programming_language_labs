@@ -51,7 +51,7 @@ public class Decode {
 
                     // Проверяем, есть ли текущий код в таблице кодов
                     for (Map.Entry<Character, String> entry : codeTable.entrySet()) {
-                        if (entry.getValue().equals(currentCode.toString())) {
+                        if (entry.getValue().contentEquals(currentCode)) {
                             // Найден соответствующий символ, добавляем его к декодированному сообщению
                             decodedMessage.append(entry.getKey());
                             // Сбрасываем текущий код
