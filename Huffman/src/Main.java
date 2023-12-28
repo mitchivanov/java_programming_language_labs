@@ -1,3 +1,4 @@
+// Иванов Михаил, 5030102/10101
 import java.util.Scanner;
 
 public class Main {
