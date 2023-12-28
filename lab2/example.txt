@@ -1,0 +1,2 @@
+java word1 word2 lesson learning shape type move c++ kotlin
+python rust
